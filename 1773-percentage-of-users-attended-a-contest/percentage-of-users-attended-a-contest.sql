@@ -7,15 +7,15 @@ from users as u
 left join register as r
 on u.user_id = r.user_id
 group by r.contest_id
-),
-
-total as (
-select count(distinct user_id) as tot
-from users
 )
 
--- contest_id, round((t/(select tot from total) * 100), 2) as percentage
-select contest_id, round((t/(select tot from total) * 100), 2) as percentage
+-- total as (
+-- select count(distinct user_id) as tot
+-- from users
+-- )
+
+-- round((t/(select tot from total) * 100), 2) as percentage
+select contest_id, round((t/(select count(distinct user_id) from users) * 100), 2) as percentage
 from testing
 where contest_id is not null
 order by percentage desc, contest_id asc
