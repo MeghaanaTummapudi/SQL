@@ -1,4 +1,4 @@
-# Write your MySQL query statement below
+
 
 with testing as (
 select person_id, person_name, weight, turn,
