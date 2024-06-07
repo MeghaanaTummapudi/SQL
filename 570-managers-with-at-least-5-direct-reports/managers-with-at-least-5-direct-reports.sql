@@ -8,6 +8,11 @@ group by managerid
 having count(*) >= 5
 )
 
-select name
-from employee
-where id in (select managerid from man_id)
+-- select name
+-- from employee
+-- where id in (select managerid from man_id)
+
+select e.name as name
+from man_id  as m
+inner join employee as e
+on m.managerid = e.id
