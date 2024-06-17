@@ -1,9 +1,5 @@
 # Write your MySQL query statement below
 
--- select *
--- from seat as s1
--- left join seat as s2
--- on s1.id < s2.id
 
 with testing as (
 select *,
