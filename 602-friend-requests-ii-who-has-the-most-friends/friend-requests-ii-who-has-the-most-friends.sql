@@ -1,28 +1,31 @@
 # Write your MySQL query statement below
 
-with f as (
-select distinct requester_id as friends, count(*) as n_count
-from RequestAccepted
+with testing as (
+select requester_id, count(*) as n_c
+from requestaccepted
 group by requester_id
 ),
-u as (
-select distinct accepter_id as users, count(*) as n_count_u
-from RequestAccepted
-group by accepter_id
+
+test2 as (
+    select accepter_id, count(*) as nc
+    from requestaccepted
+    group by accepter_id 
+
 ),
 
 un as (
+
 select *
-from f 
-union all
+from testing
+
+union all 
+
 select *
-from u 
+from test2
 )
 
-select friends as id, sum(n_count) as num
+select requester_id as id, sum(n_c) as num
 from un
-group by friends
+group by requester_id
 order by num desc
 limit 1
-
-
