@@ -9,5 +9,5 @@ import pandas as pd
 def find_customers(customers: pd.DataFrame, orders: pd.DataFrame) -> pd.DataFrame:
     merged_df = pd.merge(customers, orders, how = 'left', left_on = 'id', right_on = 'customerId')
     name = merged_df[merged_df['id_y'].isnull() == True][['name']]
-    name = name.rename(columns = {'name' : 'Customers'})
+    name.rename(columns = {'name' : 'Customers'}, inplace = True)
     return name
