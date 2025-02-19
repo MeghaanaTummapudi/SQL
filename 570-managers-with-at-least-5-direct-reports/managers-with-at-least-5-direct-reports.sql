@@ -18,4 +18,4 @@ select e.name
 from testing as t
 left join employee as e
 on t.m_id = e.id 
-where t.m_id is not null and e.id is not null
+where  e.id is not null
