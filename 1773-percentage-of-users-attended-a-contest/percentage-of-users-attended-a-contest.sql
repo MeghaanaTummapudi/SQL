@@ -1,21 +1,16 @@
 # Write your MySQL query statement below
 
--- r.contest_id, sum(case when u.user_id = r.user_id then 1 else 0 end) as t
-with testing as (
-select r.contest_id, count(distinct u.user_id) as t
-from users as u
-left join register as r
+-- select r.contest_id, coalesce(round(count(r.user_id) / (select count( distinct user_id) from Users) * 100, 2), 0) as percentage
+-- from Users as u
+-- left join Register as r
+-- on u.user_id = r.user_id
+-- group by r.contest_id
+-- order by percentage desc, r.contest_id asc
+
+select r.contest_id, coalesce(round(count(r.user_id) / (select count( distinct user_id) from Users) * 100, 2), 0) as percentage
+from Users as u
+left join Register as r
 on u.user_id = r.user_id
+where r.contest_id is not null
 group by r.contest_id
-)
-
--- total as (
--- select count(distinct user_id) as tot
--- from users
--- )
-
--- round((t/(select tot from total) * 100), 2) as percentage
-select contest_id, round((t/(select count(distinct user_id) from users) * 100), 2) as percentage
-from testing
-where contest_id is not null
-order by percentage desc, contest_id asc
+order by percentage desc, r.contest_id asc
