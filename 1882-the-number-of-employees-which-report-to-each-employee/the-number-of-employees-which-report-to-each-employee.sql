@@ -1,14 +1,14 @@
 # Write your MySQL query statement below
 
 with testing as (
-select reports_to, count(*) as n_c, round(avg(age)) as avg_age
-from employees
+select distinct reports_to, count(*) as reports_count, round(avg(age)) as average_age
+from Employees 
 where reports_to is not null
 group by reports_to
 )
 
-select e.employee_id, e.name, t.n_c as reports_count, t.avg_age as average_age
+select e.employee_id, e.name, t.reports_count, t.average_age
 from testing as t
-left join employees as e
+left join Employees as e
 on t.reports_to = e.employee_id
-order by e.employee_id asc
+order by e.employee_id
