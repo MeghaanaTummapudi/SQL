@@ -1,27 +1,12 @@
 # Write your MySQL query statement below
 
-with testing as (
-select *
-from employee
-where primary_flag = 'Y'
-),
-
-test2 as (
-select *
-from employee
-where primary_flag = 'N' and employee_id not in (select employee_id from testing)
-group by employee_id
-having count(employee_id) = 1
-)
-
 select employee_id, department_id
-from testing 
+from Employee
+where primary_flag = 'Y'
 
 union all
 
-select employee_id, department_id
-from test2
-
-
-
-
+select sub.employee_id, sub.department_id
+from (select * from employee group by employee_id
+having count(employee_id) = 1 ) as sub
+where sub.primary_flag = 'N'
