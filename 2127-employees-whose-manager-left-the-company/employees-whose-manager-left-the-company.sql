@@ -1,5 +1,7 @@
 # Write your MySQL query statement below
 
+# we  wanted subordinates of managers who the left the comp and whose salary < 30000
+# 
 with testing as (
 select distinct employee_id, manager_id
 from Employees
