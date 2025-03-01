@@ -1,15 +1,14 @@
 # Write your MySQL query statement below
 
--- select num, count(*) as n
--- from logs
--- group by num
--- having n >= 3
-
 with testing as (
-select id, num, lag(num, 1) over () as t1, lag(num, 2) over () as t2
-from logs
+select l1.id as l1_id, l1.num as l1_num, l2.id as l2_id, l2.num as l2_num, l3.id as l3_id, l3.num as l3_num
+from Logs as l1
+join Logs as l2
+on l2.id - l1.id = 1 and l2.id > l1.id
+join Logs as l3
+on l3.id - l2.id = 1 and l3.id > l2.id
 )
 
-select distinct num as ConsecutiveNums 
+select distinct l1_num as ConsecutiveNums
 from testing
-where num = t1 and t1 = t2 and num = t2
+where l1_num = l2_num and l2_num = l3_num 
