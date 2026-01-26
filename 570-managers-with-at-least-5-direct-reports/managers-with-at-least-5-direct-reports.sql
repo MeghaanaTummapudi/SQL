@@ -1,21 +1,14 @@
 # Write your MySQL query statement below
 
--- select name
--- from Employee
--- where id in (select distinct managerId 
---             from Employee 
---             group by managerId
---             having count(managerId) >= 5)
-
-with testing as 
-( select distinct managerId as m_id 
-from Employee 
-group by managerId
-having count(managerId) >= 5
+with testing as (
+select managerid, count(managerid) as n_c
+from employee as e1
+where managerid is not null
+group by managerid
 )
 
 select e.name
 from testing as t
-left join employee as e
-on t.m_id = e.id 
-where  e.id is not null
+join employee as e
+on t.managerid = e.id
+where t.n_c >= 5
