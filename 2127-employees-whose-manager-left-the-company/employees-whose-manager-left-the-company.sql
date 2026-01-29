@@ -1,16 +1,6 @@
 # Write your MySQL query statement below
 
-# we  wanted subordinates of managers who the left the comp and whose salary < 30000
-# 
-with testing as (
-select distinct employee_id, manager_id
-from Employees
-where manager_id is not null and salary < 30000
-)
-
-select t.employee_id
-from testing as t
-left join employees as e
-on t.manager_id = e.employee_id 
-where e.employee_id is null 
-order by t.employee_id
+select distinct employee_id
+from employees as e
+where manager_id not in (select employee_id from employees) and manager_id is not null and salary < 30000
+order by employee_id asc
