@@ -1,37 +1,33 @@
 # Write your MySQL query statement below
 
-select  'Low Salary' as category, count(*) as accounts_count
-from accounts
-where income < 20000
+-- select *, 
+--        (case when income < 20000 then 'Low Salary' 
+--             when income between 20000 and 50000 then 'Average Salary'
+--             when income > 50000 then 'High Salary'
+--         else null end) as type
+-- from accounts 
 
-union all
+-- select ('low salary', 'average salary', 'high salary') as type
 
-select  'Average Salary' as category, count(*) as accounts_count
-from accounts
-where income between 20000 and 50000
+with testing as (
+select 'Low Salary' as type
+union
+select 'Average Salary' as type
+union
+select 'High Salary' as type
+), 
 
-union all
+testing2 as 
+(select *, 
+       (case when income < 20000 then 'Low Salary' 
+            when income between 20000 and 50000 then 'Average Salary'
+            when income > 50000 then 'High Salary'
+        else null end) as type
+from accounts)
 
-select  'High Salary' as category, count(*) as accounts_count
-from accounts
-where income > 50000
-
-
-
-
-
-
--- with testing as (
--- select *,
---        (case when income < 20000 then 'Low Salary'
---              when income between 20000 and 50000 then 'Average Salary'
---              when income > 50000 then 'High Salary' else null end) as category
--- from accounts
--- )
-
--- select category,
---        coalesce(sum(case when category = 'High Salary' then 1
---              when category = 'Average Salary'  then 1
---              when category = 'Low Salary'  then 1 else 0 end), 0) as nc 
--- from testing
--- group by category
+select t.type as category, coalesce(count(t2.type), 0) as accounts_count
+from testing as t
+left join testing2 as t2
+on t.type = t2.type
+group by t.type
+order by accounts_count desc
