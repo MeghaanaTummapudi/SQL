@@ -1,9 +1,16 @@
 # Write your MySQL query statement below
 
--- select *
--- from patients
--- where conditions regexp '^DIAB1| DIAB1'
-
 select *
 from patients
-where conditions like 'DIAB1%' or conditions like '% DIAB1%'
+where (conditions like 'DIAB1%') or (conditions like '% DIAB1%' )and conditions is not null
+
+-- concat
+-- format
+-- length
+-- left
+-- right
+-- substr
+-- replace
+-- trim
+
+
