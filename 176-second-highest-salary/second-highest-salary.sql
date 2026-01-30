@@ -1,15 +1,14 @@
 # Write your MySQL query statement below
 
--- with testing as (
--- select if(dense_rank() over (order by salary desc) = 2, salary, null) as SecondHighestSalary
--- from employee
--- )
+-- select coalesce(t.salary, null) as secondhighestsalary
+-- from (select *, dense_rank() over (order by salary desc) as dr
+-- from employee) as t
+-- where t.dr = 2
 
--- select *
--- from testing
-
-
-select max(salary) as SecondHighestSalary
+with testing as (
+select *, dense_rank() over (order by salary desc) as dr
 from employee
-where salary < (select max(salary) from employee)
+)
 
+select max(case when dr = 2 then salary else null end) as SecondHighestSalary
+from testing
