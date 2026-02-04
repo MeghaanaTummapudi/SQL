@@ -15,8 +15,7 @@ class Solution:
             if nums[i] != 0:
                 nums[tst] = nums[i]
                 tst = tst + 1
-                # print(nums)
-        # print(tst)
+        print(tst)
         for i in range(tst, len(nums)):
             nums[i] = 0
 
