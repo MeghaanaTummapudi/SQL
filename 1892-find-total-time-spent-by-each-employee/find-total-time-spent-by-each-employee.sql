@@ -1,5 +1,7 @@
 # Write your MySQL query statement below
 
-select event_day as day, emp_id, sum(out_time - in_time) as total_time
-from Employees as e
-group by emp_id, event_day
+select tst.event_day as day, tst.emp_id, sum(tst.time_diff) as total_time
+from (select *, (out_time - in_time) as time_diff
+      from employees) as tst
+group by tst.event_day, tst.emp_id
+
