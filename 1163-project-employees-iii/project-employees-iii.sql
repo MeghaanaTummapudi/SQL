@@ -8,3 +8,12 @@ left join employee as e
 on p.employee_id = e.employee_id) as t
 where t.dr = 1
 
+
+
+
+
+
+
+
+
+
