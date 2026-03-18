@@ -36,3 +36,4 @@ from testing2 as t2
 join testing as t1
 on t2.dif = t1.tdif
 order by t1.visit_date
+
