@@ -8,11 +8,12 @@ from orders ) as t
 where t.r = 2
 )
 
-select u.user_id as seller_id, 
-       (case when i.item_brand = u.favorite_brand then 'yes' else 'no' end) as 2nd_item_fav_brand
+select u.user_id as seller_id, if(i.item_brand = u.favorite_brand, 'yes', 'no') as 2nd_item_fav_brand
+    --    (case when i.item_brand = u.favorite_brand then 'yes' else 'no' end) as 2nd_item_fav_brand
 from testing as t
 join items as i
 on t.item_id = i.item_id
 right join users as u
 on t.seller_id = u.user_id
+
 
