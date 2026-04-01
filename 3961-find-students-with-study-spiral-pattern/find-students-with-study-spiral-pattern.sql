@@ -43,3 +43,5 @@ on t1.student_id = t4.student_id
 where t1.student_id not in (select student_id from testing2)
 order by t1.cycle_l desc, t1.tot_time desc
 
+
+
