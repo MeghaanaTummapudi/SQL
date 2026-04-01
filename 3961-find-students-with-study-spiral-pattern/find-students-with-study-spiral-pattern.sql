@@ -25,25 +25,12 @@ on s1.student_id = s2.student_id and s1.session_id + t.cycle_l = s2.session_id
 where s1.subject <> s2.subject
 )
 
--- testing4 as (
--- select t3.student_id, t1.cycle_l, count(distinct t3.subject)
--- from testing3 as t3
--- join testing as t1
--- on t3.student_id = t1.student_id
--- join testing3 as t4
--- on t3.student_id = t4.student_id and t3.session_id + t1.cycle_l = t4.session_id
--- where t3.subject = t4.subject
--- group by t3.student_id
--- having t1.cycle_l = count(distinct t3.subject)
--- )
 
 
 select t1.student_id, s.student_name, s.major, t1.cycle_l as cycle_length, t1.tot_time as total_study_hours
 from testing as t1
 left join students as s
 on t1.student_id = s.student_id
--- join testing4 as t4
--- on t1.student_id = t4.student_id
 where t1.student_id not in (select student_id from testing2) and t1.student_id not in (select student_id from testing3)
 order by t1.cycle_l desc, t1.tot_time desc
 
