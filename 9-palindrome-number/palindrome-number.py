@@ -2,16 +2,19 @@ class Solution:
     def isPalindrome(self, x: int) -> bool:
         n = len(str(x))
         str_x = str(x)
-        ls = []
-        # print(n)
+        # ls = []
+        # for i in range(len(str_x)):
+        #     if str_x[i] == str_x[n-i-1]:
+        #         ls.append(1)
+        #     else:
+        #         ls.append(0)
+        # if set(ls) == {1}:
+        #     return True
+        # return False
+
         for i in range(len(str_x)):
-            if str_x[i] == str_x[n-i-1]:
-                ls.append(1)
-            else:
-                ls.append(0)
-        # print(ls)
-        if set(ls) == {1}:
-            return True
-        return False
+            if str_x[i] != str_x[n-i-1]:
+                return False
+        return True
 
         
