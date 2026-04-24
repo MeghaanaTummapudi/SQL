@@ -22,3 +22,6 @@ from users as u
 left join testing2 as t2
 on u.user_id = t2.p1
 
+
+
+
