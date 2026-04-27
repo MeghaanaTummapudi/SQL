@@ -8,7 +8,7 @@ union all
 
 select n+1 
 from cte 
-where n < (select max(customer_id) from customers) and n < 100
+where n < (select max(customer_id) from customers)
 )
 
 select distinct ct.n as ids
