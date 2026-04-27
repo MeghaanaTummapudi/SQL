@@ -11,9 +11,14 @@ from cte
 where n < (select max(customer_id) from customers)
 )
 
-select distinct ct.n as ids
-from cte as ct
-left join customers as c
-on ct.n = c.customer_id
-where c.customer_id is null
-order by ct.n asc
+-- select distinct ct.n as ids
+-- from cte as ct
+-- left join customers as c
+-- on ct.n = c.customer_id
+-- where c.customer_id is null
+-- order by ct.n asc
+
+select n as ids
+from cte
+where n not in (select distinct customer_id from customers)
+order by n asc
