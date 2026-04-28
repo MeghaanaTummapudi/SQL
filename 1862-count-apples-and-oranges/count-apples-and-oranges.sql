@@ -7,7 +7,7 @@ left join chests as c
 on b.chest_id = c.chest_id
 )
 
-select sum(case when apple_count is not null then apple_count else 0 end) as apple_count, sum(case when orange_count is not null then orange_count else 0 end) as orange_count
+select sum(apple_count) as apple_count, sum(orange_count) as orange_count
 from testing
 
 
