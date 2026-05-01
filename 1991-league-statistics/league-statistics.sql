@@ -70,54 +70,106 @@
 -- order by points desc, goal_diff desc, team_name asc
 
 
-with testing as (
-select *, 
-       (case when home_team_goals > away_team_goals then 3 
-            when home_team_goals = away_team_goals then 1
-       else 0 end) as home, 
-       (case when home_team_goals < away_team_goals then 3 
-            when home_team_goals = away_team_goals then 1
-       else 0 end) as away
-from matches
-), 
+-- with testing as (
+-- select *, 
+--        (case when home_team_goals > away_team_goals then 3 
+--             when home_team_goals = away_team_goals then 1
+--        else 0 end) as home, 
+--        (case when home_team_goals < away_team_goals then 3 
+--             when home_team_goals = away_team_goals then 1
+--        else 0 end) as away
+-- from matches
+-- ), 
 
-testing2 as (
-select home_team_id as id,home_team_goals as goals, home as points
-from testing
+-- testing2 as (
+-- select home_team_id as id,home_team_goals as goals, home as points
+-- from testing
 
-union all
+-- union all
 
-select away_team_id as id, away_team_goals as goals, away as points
-from testing
-), 
+-- select away_team_id as id, away_team_goals as goals, away as points
+-- from testing
+-- ), 
 
-testing3 as (
-select id, count(*) as matches_played, sum(points) as points, sum(goals) as goal_for
-from testing2
-group by id
-),
+-- testing3 as (
+-- select id, count(*) as matches_played, sum(points) as points, sum(goals) as goal_for
+-- from testing2
+-- group by id
+-- ),
  
-testing4 as (
-select home_team_id as id, away_team_goals as goals
-from matches
+-- testing4 as (
+-- select home_team_id as id, away_team_goals as goals
+-- from matches
 
-union all
+-- union all
 
-select away_team_id as id, home_team_goals as goals
-from matches
+-- select away_team_id as id, home_team_goals as goals
+-- from matches
+-- ),
+
+-- testing5 as (
+-- select id, sum(goals) as goals_against
+-- from testing4
+-- group by id
+-- )
+
+-- select t.team_name, t3.matches_played, t3.points, t3.goal_for, t5.goals_against as goal_against, (t3.goal_for - t5.goals_against) as goal_diff
+-- from teams as t
+-- join testing3 as t3
+-- on t.team_id = t3.id
+-- left join testing5 as t5
+-- on t3.id = t5.id
+-- order by points desc, goal_diff desc, team_name asc
+
+
+WITH team_stats AS (
+    SELECT 
+        home_team_id AS team_id,
+        home_team_goals AS goals_for,
+        away_team_goals AS goals_against,
+        CASE 
+            WHEN home_team_goals > away_team_goals THEN 3
+            WHEN home_team_goals = away_team_goals THEN 1
+            ELSE 0
+        END AS points
+    FROM matches
+
+    UNION ALL
+
+    SELECT 
+        away_team_id AS team_id,
+        away_team_goals AS goals_for,
+        home_team_goals AS goals_against,
+        CASE 
+            WHEN away_team_goals > home_team_goals THEN 3
+            WHEN away_team_goals = home_team_goals THEN 1
+            ELSE 0
+        END AS points
+    FROM matches
 ),
 
-testing5 as (
-select id, sum(goals) as goals_against
-from testing4
-group by id
+final_stats AS (
+    SELECT 
+        team_id,
+        COUNT(*) AS matches_played,
+        SUM(points) AS points,
+        SUM(goals_for) AS goal_for,
+        SUM(goals_against) AS goal_against
+    FROM team_stats
+    GROUP BY team_id
 )
 
-select t.team_name, t3.matches_played, t3.points, t3.goal_for, t5.goals_against as goal_against, (t3.goal_for - t5.goals_against) as goal_diff
-from teams as t
-join testing3 as t3
-on t.team_id = t3.id
-left join testing5 as t5
-on t3.id = t5.id
-order by points desc, goal_diff desc, team_name asc
-
+SELECT 
+    t.team_name,
+    COALESCE(f.matches_played, 0) AS matches_played,
+    COALESCE(f.points, 0) AS points,
+    COALESCE(f.goal_for, 0) AS goal_for,
+    COALESCE(f.goal_against, 0) AS goal_against,
+    COALESCE(f.goal_for, 0) - COALESCE(f.goal_against, 0) AS goal_diff
+FROM teams AS t
+JOIN final_stats AS f
+    ON t.team_id = f.team_id
+ORDER BY 
+    points DESC,
+    goal_diff DESC,
+    team_name ASC;
