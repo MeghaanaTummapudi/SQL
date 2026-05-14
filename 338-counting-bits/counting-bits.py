@@ -18,5 +18,5 @@ class Solution:
         # return new_count
         new_count = []
         tst = [bin(i)[2:] for i in range(n+1)]
-        new_count += [x.count('1') for x in tst]
+        new_count = [x.count('1') for x in tst]
         return new_count
