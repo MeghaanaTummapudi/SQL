@@ -16,3 +16,4 @@ select customer_id
 from testing2
 where (n_c) in (select max(n_c) from testing2)
 order by customer_id asc
+
