@@ -8,14 +8,19 @@ from files
 ), 
 
 testing2 as (
-select 'bull' as word
+select 'bull' as word, bull_c as 'count'
+from testing
 
 union all
 
-select 'bear' as word
+select 'bear' as word,  bear_c as 'count'
+from testing
 )
 
-select word, (case when word = 'bull' then bull_c else bear_c end) as count
+select *
 from testing2
-cross join testing
+
+-- select word, (case when word = 'bull' then bull_c else bear_c end) as count
+-- from testing2
+-- cross join testing
 
