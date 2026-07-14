@@ -10,14 +10,18 @@ class Solution:
         # max_val = max(tst.values())
 
         # return max_val
-        ind = 0
-        tst = {}
+
+        # ---------------------------------------------------------------
+        # ind = 0
+        # tst = {}
+        # for i in accounts:
+        #     tst[ind] = sum(i)
+        #     ind = ind + 1
+        # # print(tst)
+        # return max(tst.values())
+        # ---------------------------------------------------------------
+        val = []
         for i in accounts:
-            tst[ind] = sum(i)
-            ind = ind + 1
-        # print(tst)
-        return max(tst.values())
+            val.append(sum(i))
 
-
-
-            
+        return max(val)
