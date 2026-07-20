@@ -1,16 +1,11 @@
 class Solution:
     def shuffle(self, nums: List[int], n: int) -> List[int]:
-        # tst = nums[n:]
-        # newt = []
-        # for i in range(n):
-        #     newt.append(nums[i])
-        #     newt.append(tst[i])
-        # return newt
-
-
-        # tst = nums[n:]
+        l1 = nums[n:]
         newt = []
         for i in range(n):
             newt.append(nums[i])
-            newt.append(nums[n+i])
+            newt.append(l1[i])
+        
         return newt
+    
+
