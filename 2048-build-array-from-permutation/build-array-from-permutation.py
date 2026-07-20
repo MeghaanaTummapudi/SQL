@@ -8,8 +8,7 @@ class Solution:
         # return ls
 
 
-        ans = [nums[nums[i]] for i in range(len(nums))]
-        return ans
+        return [nums[nums[i]] for i in range(len(nums))]
 
         
         
