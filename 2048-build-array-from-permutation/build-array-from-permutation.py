@@ -1,13 +1,12 @@
 class Solution:
     def buildArray(self, nums: List[int]) -> List[int]:
-        # newt = 0
-        # ans = []
-        # for i in range(len(nums)):
-        #     newt = nums[nums[i]]
-        #     ans.append(newt)
-        # return ans
 
-        ans = []
+        ls = [None] * len(nums)  
+        # print(ls)
         for i in range(len(nums)):
-            ans.append(nums[nums[i]])
-        return ans
+            ls[i] = (nums[nums[i]])
+
+        return ls
+
+        
+        
