@@ -13,11 +13,9 @@ on t1.employee_id = t2.employee_id and t1.rn < t2.rn
 where (t2.start_time between t1.start_time and t1.end_time) 
 ),
 
--- , first_value(st1) over (partition by employee_id order by rn1) as fs, last_value(et2) over (partition by employee_id order by rn1) as ls
-
 testing3 as (
 select rn1, employee_id, rn2, (case when st2 > st1 and st2 < et1 then timestampdiff(minute, st2, et1)
-when st2 > st1 and st2 > et1 then timestampdiff(minute, st2, et2)
+-- when st2 > st1 and st2 > et1 then timestampdiff(minute, st2, et2)
 else null end) as tsts
 from testing2
 ),
