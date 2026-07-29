@@ -1,15 +1,14 @@
 class Solution:
     def plusOne(self, digits: List[int]) -> List[int]:
-        newt = ''
-        new_list = []
+        
+        ls = ""
         for i in range(len(digits)):
-            newt += str(digits[i])
-        # print(newt)
-        new_int = str(int(newt) + 1)
-        for char in new_int:
-            n_char = int(char)
-            new_list.append(n_char)
-        return new_list
+            ls = ls + str(digits[i])
 
-
-
+        # print(ls)
+        new = str(int(ls) + 1)
+        tsts = []
+        for i in range(len(new)):
+            tsts.append(int(new[i]))
+        return tsts
+        
