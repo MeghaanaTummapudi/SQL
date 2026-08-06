@@ -5,7 +5,7 @@ class Solution:
         #     return False
 
         point = -1
-        if len((arr)) >= 3:
+        if len(set(arr)) >= 3:
             for i in range(len(arr) - 1):
                 j = i + 1
 
