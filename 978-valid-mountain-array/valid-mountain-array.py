@@ -4,7 +4,7 @@ class Solution:
         # if len(listarr) < 3:
         #     return False
 
-        point = 0
+        point = -1
         if len(set(arr)) >= 3:
             for i in range(len(arr) - 1):
                 j = i + 1
@@ -13,7 +13,7 @@ class Solution:
                     point = i
                     break
             # print(point)
-            if point == 0 or point == len(arr):
+            if point == 0 or point == - 1:
                 return False
             for i in range(point, len(arr) - 1):
                 j = i + 1
