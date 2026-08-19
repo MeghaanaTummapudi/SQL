@@ -1,27 +1,22 @@
 # Write your MySQL query statement below
 
 with testing as (
-select requester_id as id, count(*) as n_c
-from requestaccepted
-where accept_date is not null
-group by requester_id
-
+select requester_id as id1, accepter_id as id2
+from RequestAccepted
 
 union all
 
-select accepter_id as id, count(*) as n_c2
-from requestaccepted
-where accept_date is not null
-group by accepter_id
+select accepter_id as id1, requester_id as id2
+from RequestAccepted
 ), 
 
+
 testing2 as (
-select id, sum(n_c) as nc_count
+select id1, count(id1) as n_c
 from testing
-group by id
+group by id1
 )
 
-select id, nc_count as num
-from testing2 
-where nc_count in (select max(nc_count) from testing2)
-
+select id1 as id, n_c as num
+from testing2
+where n_c in (select max(n_c) from testing2)
