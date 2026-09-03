@@ -1,16 +1,37 @@
 # Write your MySQL query statement below
 
+-- with testing as (
+-- select *, lag(arrival_time, 1, -1) over (order by arrival_time asc) as prev_time
+-- from buses
+-- ), 
+
+-- testing2 as (
+-- select t.bus_id, count(*) as n_c
+-- from passengers as p
+-- left join testing as t
+-- on p.arrival_time <= t.arrival_time and p.arrival_time > t.prev_time
+-- group by t.bus_id
+-- )
+
+-- select b.bus_id, ifnull(t2.n_c, 0) as passengers_cnt
+-- from buses as b
+-- left join testing2 as t2
+-- on b.bus_id = t2.bus_id
+-- order by b.bus_id asc
+
+
 with testing as (
-select *, lag(arrival_time, 1, -1) over (order by arrival_time asc) as prev_time
-from buses
+select p.passenger_id, p.arrival_time as p_at, b.bus_id, b.arrival_time as b_at, dense_rank() over(partition by p.passenger_id order by b.arrival_time asc) as rn
+from passengers as p
+left join buses as b
+on p.arrival_time <= b.arrival_time
 ), 
 
 testing2 as (
-select t.bus_id, count(*) as n_c
-from passengers as p
-left join testing as t
-on p.arrival_time <= t.arrival_time and p.arrival_time > t.prev_time
-group by t.bus_id
+select bus_id, count(*) as n_c
+from testing
+where rn = 1
+group by bus_id
 )
 
 select b.bus_id, ifnull(t2.n_c, 0) as passengers_cnt
@@ -18,4 +39,3 @@ from buses as b
 left join testing2 as t2
 on b.bus_id = t2.bus_id
 order by b.bus_id asc
-
